@@ -33,4 +33,10 @@ public class OrderItem {
     int price_per_product;
     int price;
 
+    public OrderItem(Product product, int quantity, int price_per_product, int price) {
+        this.product = product;
+        this.quantity = quantity;
+        this.price_per_product = price_per_product;
+        this.price = price;
+    }
 }

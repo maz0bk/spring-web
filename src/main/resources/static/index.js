@@ -39,7 +39,12 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
                 $scope.Cart = response.data;
             });
     }
-
+    $scope.createOrder = function (){
+        $http.post('http://localhost:8189/app/api/v1/orders',$scope.Cart,$scope.user)
+            .then(function (response) {
+                $scope.clearCart();
+            })
+    }
     $scope.tryToAuth = function () {
         $http.post('http://localhost:8189/app/auth', $scope.user)
             .then(function successCallback(response) {
