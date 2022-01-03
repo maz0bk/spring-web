@@ -39,12 +39,27 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
                 $scope.Cart = response.data;
             });
     }
-    $scope.createOrder = function (){
-        $http.post('http://localhost:8189/app/api/v1/orders',$scope.Cart,$scope.user)
+   $scope.createOrder = function (){
+        $http.post('http://localhost:8189/app/api/v1/orders',$scope.order_info)
             .then(function (response) {
-                $scope.clearCart();
+                alert('Order created successfully')
+                $scope.loadCart();
             })
     }
+    /*  $scope.createOrder = function () {
+        $http({
+            url: contextPath + '/orders',
+            method: 'POST',
+            params: {
+                address: $scope.order_info.address,
+                phone: $scope.order_info.phone
+            }
+        }).then(function (response) {
+            alert('Заказ создан');
+            $scope.loadCart();
+        });
+    }*/
+
     $scope.tryToAuth = function () {
         $http.post('http://localhost:8189/app/auth', $scope.user)
             .then(function successCallback(response) {
