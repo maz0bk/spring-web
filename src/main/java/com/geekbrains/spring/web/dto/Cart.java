@@ -35,13 +35,13 @@ public class Cart {
         return false;
     }
 
-    public void decreaseProduct(Long id) {
+    public void decreaseProductQuantity(Long id) {
         Iterator<OrderItemDto> iter = items.iterator();
         while (iter.hasNext()) {
-            OrderItemDto o = iter.next();
-            if (o.getProductId().equals(id)) {
-                o.changeQuantity(-1);
-                if (o.getQuantity() <= 0) {
+            OrderItemDto orderItem = iter.next();
+            if (orderItem.getProductId().equals(id)) {
+                orderItem.changeQuantity(-1);
+                if (orderItem.getQuantity() <= 0) {
                     iter.remove();
                 }
                 recalculate();
