@@ -36,7 +36,7 @@ public class Cart {
         return false;
     }
 
-    public void decreaseProduct(Long id) {
+    public void decreaseProductQuantity(Long id) {
         Iterator<OrderItemDto> iter = items.iterator();
         while (iter.hasNext()) {
             OrderItemDto o = iter.next();
