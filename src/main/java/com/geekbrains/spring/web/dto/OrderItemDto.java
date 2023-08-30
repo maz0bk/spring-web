@@ -22,9 +22,4 @@ public class OrderItemDto {
         this.pricePerProduct = product.getPrice();
         this.price = product.getPrice();
     }
-
-    public void changeQuantity(int delta) {
-        this.quantity += delta;
-        this.price = this.quantity * this.pricePerProduct;
-    }
 }

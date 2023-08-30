@@ -27,20 +27,22 @@ public class Cart {
     public boolean addProduct(Long id) {
         for (OrderItemDto o : items) {
             if (o.getProductId().equals(id)) {
-                o.changeQuantity(1);
-                recalculateTotalPrice();
+                o.setQuantity(o.getQuantity() + 1);
+                o.setPrice(o.getPricePerProduct() * o.getQuantity());
+                recalculate();
                 return true;
             }
         }
         return false;
     }
 
-    public void decreaseProduct(Long id) {
+    public void decreaseProductQuantity(Long id) {
         Iterator<OrderItemDto> iter = items.iterator();
         while (iter.hasNext()) {
             OrderItemDto o = iter.next();
             if (o.getProductId().equals(id)) {
-                o.changeQuantity(-1);
+                o.setQuantity(o.getQuantity() - 1);
+                o.setPrice(o.getPricePerProduct() * o.getQuantity());
                 if (o.getQuantity() <= 0) {
                     iter.remove();
                 }
@@ -74,7 +76,8 @@ public class Cart {
             for (OrderItemDto myItem :
                     items) {
                 if (myItem.getProductId().equals(guestItem.getProductId())) {
-                    myItem.changeQuantity(guestItem.getQuantity());
+                    myItem.setQuantity(myItem.getQuantity() + guestItem.getQuantity());
+                    myItem.setPrice(myItem.getPricePerProduct() * myItem.getQuantity());
                     merged = true;
                     break;
                 }
