@@ -21,7 +21,7 @@ public class Cart {
             return;
         }
         items.add(new OrderItemDto(product));
-        recalculate();
+        recalculateTotalPrice();
     }
 
     public boolean addProduct(Long id) {
@@ -46,7 +46,7 @@ public class Cart {
                 if (o.getQuantity() <= 0) {
                     iter.remove();
                 }
-                recalculate();
+                recalculateTotalPrice();
                 return;
             }
         }
@@ -54,7 +54,7 @@ public class Cart {
 
     public void removeProduct(Long id) {
         items.removeIf(o -> o.getProductId().equals(id));
-        recalculate();
+        recalculateTotalPrice();
     }
 
     public void clear() {
@@ -62,31 +62,31 @@ public class Cart {
         totalPrice = 0;
     }
 
-    private void recalculate() {
+    private void recalculateTotalPrice() {
         totalPrice = 0;
         for (OrderItemDto o : items) {
             totalPrice += o.getPrice();
         }
     }
 
-    public void merge(Cart another) {
-        for (OrderItemDto anotherItem :
-                another.items) {
+    public void merge(Cart guestCart) {
+        for (OrderItemDto guestItem :
+                guestCart.items) {
             boolean merged = false;
             for (OrderItemDto myItem :
                     items) {
-                if (myItem.getProductId().equals(anotherItem.getProductId())) {
-                    myItem.setQuantity(myItem.getQuantity() + anotherItem.getQuantity());
+                if (myItem.getProductId().equals(guestItem.getProductId())) {
+                    myItem.setQuantity(myItem.getQuantity() + guestItem.getQuantity());
                     myItem.setPrice(myItem.getPricePerProduct() * myItem.getQuantity());
                     merged = true;
                     break;
                 }
             }
             if (!merged) {
-                items.add(anotherItem);
+                items.add(guestItem);
             }
         }
-        recalculate();
-        another.clear();
+        recalculateTotalPrice();
+        guestCart.clear();
     }
 }
