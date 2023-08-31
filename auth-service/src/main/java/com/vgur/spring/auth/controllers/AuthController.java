@@ -1,9 +1,10 @@
-package com.vgur.spring.auth.services;
+package com.vgur.spring.auth.controllers;
 
 
 import com.vgur.spring.api.exceptions.AppError;
 import com.vgur.spring.auth.dto.JwtRequest;
 import com.vgur.spring.auth.dto.JwtResponse;
+import com.vgur.spring.auth.services.UserService;
 import com.vgur.spring.auth.utils.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,8 +31,8 @@ public class AuthController {
         } catch (BadCredentialsException e) {
             return new ResponseEntity<>(new AppError(HttpStatus.UNAUTHORIZED.value(), "Incorrect username or password"), HttpStatus.UNAUTHORIZED);
         }
-        UserDetails userDetails = userService.loadUserByUsername(authRequest.getUsername());
-        String token = jwtTokenUtil.generateToken(userDetails);
+        var userDetails = userService.loadUserByUsername(authRequest.getUsername());
+        var token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
     }
 }

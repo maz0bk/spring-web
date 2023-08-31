@@ -1,5 +1,7 @@
 package com.vgur.spring.core.exceptions;
 
+import com.vgur.spring.api.exceptions.AppError;
+import com.vgur.spring.api.exceptions.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

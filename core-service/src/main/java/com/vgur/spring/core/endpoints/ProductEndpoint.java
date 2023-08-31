@@ -1,9 +1,11 @@
 package com.vgur.spring.core.endpoints;
 
+import com.vgur.spring.api.exceptions.ResourceNotFoundException;
 import com.vgur.spring.core.converters.ProductConverter;
 import com.vgur.spring.core.entities.Product;
-import com.vgur.spring.core.exceptions.ResourceNotFoundException;
-import com.vgur.spring.core.repositories.ProductsRepository;
+
+
+import com.vgur.spring.core.products.*;
 import com.vgur.spring.core.services.ProductsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
