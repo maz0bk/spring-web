@@ -9,7 +9,8 @@
 		<module>auth-service</module>
 		<module>core-service</module>
 		<module>api</module>
-	</modules>
+        <module>cart-service</module>
+    </modules>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -69,15 +70,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-redis</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>redis.clients</groupId>
-			<artifactId>jedis</artifactId>
-			<version>3.6.0</version>
-		</dependency>
+
 
 		<dependency>
 			<groupId>javax.xml.bind</groupId>

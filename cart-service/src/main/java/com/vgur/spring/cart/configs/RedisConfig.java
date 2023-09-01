@@ -1,4 +1,4 @@
-package com.vgur.spring.core.configs;
+package com.vgur.spring.cart.configs;
 
 
 import org.springframework.context.annotation.Bean;

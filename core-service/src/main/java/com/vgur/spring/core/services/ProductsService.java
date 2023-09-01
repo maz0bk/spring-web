@@ -1,7 +1,7 @@
 package com.vgur.spring.core.services;
 
 import com.vgur.spring.api.exceptions.ResourceNotFoundException;
-import com.vgur.spring.core.dto.ProductDto;
+import com.vgur.spring.api.core.ProductDto;
 import com.vgur.spring.core.entities.Product;
 
 import com.vgur.spring.core.repositories.ProductsRepository;

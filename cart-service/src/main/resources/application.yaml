@@ -1,0 +1,14 @@
+server:
+  port: 8190
+  servlet:
+    context-path: /web-cart
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+utils:
+  cart:
+    prefix: SPRING_CART
+integrations:
+  core-service:
+    url: http://localhost:5555/core

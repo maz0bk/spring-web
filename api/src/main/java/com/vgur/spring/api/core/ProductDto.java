@@ -1,4 +1,4 @@
-package com.vgur.spring.core.dto;
+package com.vgur.spring.api.core;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

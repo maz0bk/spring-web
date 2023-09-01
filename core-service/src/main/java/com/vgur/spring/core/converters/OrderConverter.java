@@ -1,9 +1,7 @@
 package com.vgur.spring.core.converters;
 
 import com.vgur.spring.core.dto.OrderDto;
-import com.vgur.spring.core.dto.OrderItemDto;
 import com.vgur.spring.core.entities.Order;
-import com.vgur.spring.core.entities.OrderItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

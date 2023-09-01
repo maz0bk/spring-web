@@ -1,6 +1,6 @@
-package com.vgur.spring.core.dto;
+package com.vgur.spring.cart.models;
 
-import com.vgur.spring.core.entities.Product;
+import com.vgur.spring.api.core.ProductDto;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -9,25 +9,25 @@ import java.util.List;
 
 @Data
 public class Cart {
-    private List<OrderItemDto> items;
+    private List<CartItem> items;
     private int totalPrice;
 
     public Cart() {
         this.items = new ArrayList<>();
     }
 
-    public void addProduct(Product product) {
-        if (addProduct(product.getId())) {
+    public void addProduct(ProductDto productDto) {
+        if (addProduct(productDto.getId())) {
             return;
         }
-        items.add(new OrderItemDto(product));
+        items.add(new CartItem(productDto));
         recalculate();
     }
 
     public boolean addProduct(Long id) {
-        for (OrderItemDto o : items) {
+        for (CartItem o : items) {
             if (o.getProductId().equals(id)) {
-                o.changeQuantity(1);
+                o.setQuantity(o.getQuantity()+1);
                 recalculate();
                 return true;
             }
@@ -36,11 +36,11 @@ public class Cart {
     }
 
     public void decreaseProduct(Long id) {
-        Iterator<OrderItemDto> iter = items.iterator();
+        Iterator<CartItem> iter = items.iterator();
         while (iter.hasNext()) {
-            OrderItemDto o = iter.next();
+            CartItem o = iter.next();
             if (o.getProductId().equals(id)) {
-                o.changeQuantity(-1);
+                o.setQuantity(o.getQuantity()-1);
                 if (o.getQuantity() <= 0) {
                     iter.remove();
                 }
@@ -62,28 +62,28 @@ public class Cart {
 
     private void recalculate() {
         totalPrice = 0;
-        for (OrderItemDto o : items) {
+        for (CartItem o : items) {
             totalPrice += o.getPrice();
         }
     }
 
-    public void merge(Cart another) {
-        for (OrderItemDto anotherItem :
-                another.items) {
+    public void merge(Cart guestCart) {
+        for (CartItem guestItem :
+                guestCart.items) {
             boolean merged = false;
-            for (OrderItemDto myItem :
+            for (CartItem myItem :
                     items) {
-                if (myItem.getProductId().equals(anotherItem.getProductId())) {
-                    myItem.changeQuantity(anotherItem.getQuantity());
+                if (myItem.getProductId().equals(guestItem.getProductId())) {
+                    myItem.setQuantity(myItem.getQuantity()+guestItem.getQuantity());
                     merged = true;
                     break;
                 }
             }
             if (!merged) {
-                items.add(anotherItem);
+                items.add(guestItem);
             }
         }
         recalculate();
-        another.clear();
+        guestCart.clear();
     }
 }

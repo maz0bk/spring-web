@@ -1,5 +1,6 @@
 package com.vgur.spring.core.validators;
 
+import com.vgur.spring.api.core.ProductDto;
 import com.vgur.spring.core.exceptions.ValidationException;
 import org.springframework.stereotype.Component;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 @Component
 public class ProductValidator {
-    public void validate(com.vgur.spring.core.dto.ProductDto productDto) {
+    public void validate(ProductDto productDto) {
         List<String> errors = new ArrayList<>();
         if (productDto.getPrice() < 1) {
             errors.add("Цена продукта не может быть меньше 1");

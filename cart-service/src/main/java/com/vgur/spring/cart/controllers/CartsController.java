@@ -1,13 +1,11 @@
-package com.vgur.spring.core.controllers;
+package com.vgur.spring.cart.controllers;
 
 import com.vgur.spring.api.dto.StringResponse;
-import com.vgur.spring.core.dto.Cart;
-import com.vgur.spring.core.services.CartService;
+import com.vgur.spring.cart.models.Cart;
+import com.vgur.spring.cart.services.CartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/v1/cart")

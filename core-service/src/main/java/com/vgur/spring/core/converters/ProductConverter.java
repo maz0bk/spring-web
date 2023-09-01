@@ -1,6 +1,6 @@
 package com.vgur.spring.core.converters;
 
-import com.vgur.spring.core.dto.ProductDto;
+import com.vgur.spring.api.core.ProductDto;
 import com.vgur.spring.core.entities.Product;
 import com.vgur.spring.core.products.ProductXml;
 import org.springframework.stereotype.Component;

@@ -1,12 +1,16 @@
-package com.vgur.spring.core.services;
+package com.vgur.spring.cart.services;
 
+
+import com.vgur.spring.api.dto.OrderItemDto;
+import com.vgur.spring.api.core.ProductDto;
 import com.vgur.spring.api.exceptions.ResourceNotFoundException;
-import com.vgur.spring.core.dto.Cart;
-import com.vgur.spring.core.entities.Product;
+import com.vgur.spring.cart.integrations.ProductServiceIntegration;
+import com.vgur.spring.cart.models.Cart;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
 import java.util.UUID;
@@ -15,12 +19,11 @@ import java.util.function.Consumer;
 @Service
 @RequiredArgsConstructor
 public class CartService {
-    private final ProductsService productsService;
+    private final ProductServiceIntegration productServiceIntegration;
     private final RedisTemplate<String,Object> redisTemplate;
     private Cart cart;
-    @Value("SPRING_WEB_")
+    @Value("${utils.cart.prefix}")
     private String cartPrefix;
-
 
     @PostConstruct
     public void init() {
@@ -43,8 +46,11 @@ public class CartService {
     }
 
     public void addToCart(String cardKey, Long productId) {
-            Product product = productsService.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Невозможно добавить продукт в корзину. Продукт не найдет, id: " + productId));
-            execute(cardKey, c -> c.addProduct(product));
+        var restTemplate = new RestTemplate();
+
+        ProductDto productDto = productServiceIntegration.findById(productId).orElseThrow(()-> new ResourceNotFoundException("Невозможно добавить продукт в корзину. Продукт не найдет, id: " + productId));
+                restTemplate.getForObject("http://localhost:5555/core/api/v1/products/"+productId, ProductDto.class);
+        execute(cardKey, c -> c.addProduct(productDto));
         }
     public void execute(String cartKey, Consumer<Cart> action){
         Cart cart = getCurrentCart(cartKey);

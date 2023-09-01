@@ -1,5 +1,6 @@
 package com.vgur.spring.core.dto;
 
+import com.vgur.spring.api.dto.OrderItemDto;
 import lombok.Data;
 import java.util.List;
 
