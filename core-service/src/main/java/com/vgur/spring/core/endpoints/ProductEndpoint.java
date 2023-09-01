@@ -21,10 +21,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class ProductEndpoint {
+    private static final String NAMESPACE_URI ="http://www.vgur.com/spring/ws/products";
     private final ProductConverter productConverter;
     private final ProductsService productsService;
 
-    private static final String NAMESPACE_URI ="http://www.vgur.com/spring/ws/products";
     @PayloadRoot( namespace = NAMESPACE_URI, localPart = "getProductByIdRequest")
     @ResponsePayload
     public GetProductByIdResponse getProductById(@RequestPayload GetProductByIdRequest request){

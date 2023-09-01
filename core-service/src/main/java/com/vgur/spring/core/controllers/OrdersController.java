@@ -1,8 +1,8 @@
 package com.vgur.spring.core.controllers;
 
 import com.vgur.spring.core.converters.OrderConverter;
-import com.vgur.spring.core.dto.OrderDetailsDto;
-import com.vgur.spring.core.dto.OrderDto;
+import com.vgur.spring.api.core.OrderDetailsDto;
+import com.vgur.spring.api.core.OrderDto;
 import com.vgur.spring.core.services.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

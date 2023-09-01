@@ -1,6 +1,6 @@
 package com.vgur.spring.core.controllers;
 
-import com.vgur.spring.core.dto.ProfileDto;
+import com.vgur.spring.api.core.ProfileDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

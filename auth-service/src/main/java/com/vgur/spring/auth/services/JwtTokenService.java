@@ -1,22 +1,21 @@
-package com.vgur.spring.auth.utils;
+package com.vgur.spring.auth.services;
 
-import io.jsonwebtoken.Claims;
+import com.vgur.spring.auth.services.TokenService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@Component
-public class JwtTokenUtil {
+@Service
+public class JwtTokenService implements TokenService {
     @Value("${jwt.secret}")
     private String secret;
 
