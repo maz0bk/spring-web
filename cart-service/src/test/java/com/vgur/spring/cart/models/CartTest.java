@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-class CartTest {
+public class CartTest {
 
     @Test
     void merge() {
