@@ -40,24 +40,25 @@ public class CartTest {
         cartItem3.setPricePerProduct(20);
         cartItem3.setPrice(200);
 
-        var cartItem4  = new CartItem();
-        cartItem4.setProductId(4l);
-        cartItem4.setProductTitle("Honey");
-        cartItem4.setQuantity(1);
-        cartItem4.setPricePerProduct(150);
-        cartItem4.setPrice(150);
+//        var cartItem4  = new CartItem();
+//        cartItem4.setProductId(4l);
+//        cartItem4.setProductTitle("Honey");
+//        cartItem4.setQuantity(1);
+//        cartItem4.setPricePerProduct(150);
+//        cartItem4.setPrice(150);
 
         List<CartItem> itemList2 = new ArrayList<>();
         itemList2.add(cartItem3);
-        itemList2.add(cartItem4);
-        itemList2.add(cartItem);
+//        itemList2.add(cartItem4);
+//        itemList2.add(cartItem);
 
         Cart cartGuest = new Cart();
-        cartGuest.setItems(itemList);
-        cartGuest.setTotalPrice(550);
+        cartGuest.setItems(itemList2);
+        cartGuest.setTotalPrice(200);
 
         cartUser.merge(cartGuest);
-        Assertions.assertEquals(800,cartUser.getTotalPrice());
+        Assertions.assertEquals(450,cartUser.getTotalPrice());
+        Assertions.assertEquals(0,cartGuest.getTotalPrice());
 
 
     }
