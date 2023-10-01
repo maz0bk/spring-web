@@ -1,7 +1,6 @@
 package com.vgur.spring.cart.services;
 
 
-import com.vgur.spring.api.dto.OrderItemDto;
 import com.vgur.spring.api.core.ProductDto;
 import com.vgur.spring.api.exceptions.ResourceNotFoundException;
 import com.vgur.spring.cart.integrations.ProductServiceIntegration;

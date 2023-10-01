@@ -1,6 +1,6 @@
 package com.vgur.spring.core.converters;
 
-import com.vgur.spring.api.dto.OrderItemDto;
+import com.vgur.spring.api.core.OrderItemDto;
 import com.vgur.spring.core.entities.OrderItem;
 import org.springframework.stereotype.Component;
 
