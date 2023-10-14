@@ -65,7 +65,7 @@ public class Cart {
     private void recalculateTotalPrice() {
         totalPrice = BigDecimal.ZERO;
         for (CartItem o : items) {
-            totalPrice = totalPrice.add(o.getPrice());
+            totalPrice= totalPrice.add(o.getPrice());
         }
     }
 

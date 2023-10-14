@@ -5,13 +5,14 @@ import com.vgur.spring.api.core.ProductDto;
 import com.vgur.spring.api.exceptions.ResourceNotFoundException;
 import com.vgur.spring.cart.integrations.ProductServiceIntegration;
 import com.vgur.spring.cart.models.Cart;
+
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
 import java.util.UUID;
 import java.util.function.Consumer;
 

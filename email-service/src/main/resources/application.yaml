@@ -1,0 +1,12 @@
+spring:
+  mail:
+    host: mail.hubertm.ru
+    port: 465
+    username: eva@hubertm.ru
+    password: u7zn:_FQ3rp)Yh4
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
+          ssl.enable: true

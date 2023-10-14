@@ -2,6 +2,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+email-service/src/main/resources/application.yaml
 
 ### STS ###
 .apt_generated

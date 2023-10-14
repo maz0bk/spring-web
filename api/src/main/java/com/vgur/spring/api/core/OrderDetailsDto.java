@@ -8,4 +8,5 @@ import lombok.NoArgsConstructor;
 public class OrderDetailsDto {
     private String address;
     private String phone;
+    private String email;
 }
