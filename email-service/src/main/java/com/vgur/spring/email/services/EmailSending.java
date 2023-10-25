@@ -1,6 +1,7 @@
 package com.vgur.spring.email.services;
 
 import com.vgur.spring.api.core.OrderDto;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
@@ -13,13 +14,23 @@ import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class EmailSending {
     private final JavaMailSender mailSender;
+    private ArrayList<OrderDto> ordersToSend;
+
+    @PostConstruct
+    public void init(){
+        ordersToSend = new ArrayList<>();
+    }
+
     @Bean
     public Queue emailSendingQueue(){
         return new Queue("EmailSending");
@@ -27,8 +38,22 @@ public class EmailSending {
 
     @RabbitListener(queues = "EmailSending")
     public void listen(OrderDto orderDto){
-        sendSimpleMessage(orderDto.getEmail(),"new order","You make new order");
+        ordersToSend.add(orderDto);
     }
+    @Scheduled(fixedDelay = 60000)
+    private synchronized void sendEmails(){
+        var copyOrders = (OrderDto[]) ordersToSend.toArray();
+        ordersToSend.clear();
+        for (OrderDto orderDto: copyOrders) {
+            sendSimpleMessage(orderDto.getEmail(),"new order","You make new order");
+        }
+
+    }
+    @Scheduled(fixedDelay = 10000)
+    private void checkQuantityEmails(){
+        if (ordersToSend.size()>20) sendEmails();
+    }
+
     public void sendSimpleMessage(
             String to, String subject, String text) {
 
