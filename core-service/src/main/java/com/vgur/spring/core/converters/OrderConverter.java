@@ -22,6 +22,7 @@ public class OrderConverter {
                 .address(order.getAddress())
                 .phone(order.getPhone()).totalPrice(order.getTotalPrice())
                 .username(order.getUserName())
+                .email(order.getEmail())
                 .items(order.getItems().stream().map(orderItemConverter::entityToDto).collect(Collectors.toList()))
                 .build();
     }

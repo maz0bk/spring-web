@@ -10,12 +10,14 @@
   <tr>
     <td>ID</td>
     <td>Адрес доставки</td>
+    <td>E-mail</td>
     <td>Стоимость</td>
   </tr>
   <tbody>
   <tr ng-repeat="order in MyOrders">
     <td>{{order.id}}</td>
     <td>{{order.address}}</td>
+    <td>{{order.email}}</td>
     <td>{{order.totalPrice}}</td>
   </tr>
   </tbody>

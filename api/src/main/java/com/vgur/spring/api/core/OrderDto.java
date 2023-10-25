@@ -4,13 +4,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
 @Schema(description = "Order model")
 @Data
 @Builder
-public class OrderDto {
+
+public class OrderDto implements Serializable {
+
     @Schema(description = "Order ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long id;
     @Schema(description = "User name", requiredMode = Schema.RequiredMode.REQUIRED, example = "bob")
@@ -23,4 +26,6 @@ public class OrderDto {
     private String address;
     @Schema(description = "Phone number", example = "+491121165588")
     private String phone;
+    @Schema(description = "E-mail address", example = "bob@gmail.com")
+    private String email;
 }

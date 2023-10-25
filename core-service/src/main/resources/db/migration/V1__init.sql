@@ -20,6 +20,7 @@ create table orders
     total_price numeric(8,2) not null,
     address     varchar(255),
     phone       varchar(255),
+    email       varchar(255),
     created_at  timestamp default current_timestamp,
     updated_at  timestamp default current_timestamp
 );
