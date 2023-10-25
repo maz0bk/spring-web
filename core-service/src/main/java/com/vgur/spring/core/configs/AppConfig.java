@@ -14,7 +14,8 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.tcp.TcpClient;
-import java.util.concurrent.TimeUnit;
+//import java.util.concurrent.TimeUnit;
+
 
 
 @Configuration
@@ -33,8 +34,9 @@ public class AppConfig {
                 .create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, cartProperties.getConnectTimeout())
                 .doOnConnected(connection -> {
-                    connection.addHandlerLast(new ReadTimeoutHandler(cartProperties.getReadTimeout(),TimeUnit.MILLISECONDS));
-                    connection.addHandlerLast(new WriteTimeoutHandler(cartProperties.getWriteTimeout(),TimeUnit.MILLISECONDS));
+//                    connection.addHandlerLast(new ReadTimeoutHandler(cartProperties.getReadTimeout(), TimeUnit.MILLISECONDS));
+                    connection.addHandlerLast(new ReadTimeoutHandler(cartProperties.getReadTimeout()));
+                    connection.addHandlerLast(new WriteTimeoutHandler(cartProperties.getWriteTimeout()));
                 });
 
         return WebClient
