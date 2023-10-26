@@ -1,6 +1,7 @@
 package com.vgur.spring.email.services;
 
 import com.vgur.spring.api.core.OrderDto;
+import com.vgur.spring.email.EmailProperties;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
@@ -11,6 +12,7 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -22,8 +24,12 @@ import java.util.ArrayList;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@EnableConfigurationProperties(
+        EmailProperties.class
+)
 public class EmailSending {
     private final JavaMailSender mailSender;
+    private final EmailProperties emailProperties;
     private ArrayList<OrderDto> ordersToSend;
 
     @PostConstruct
@@ -40,7 +46,7 @@ public class EmailSending {
     public void listen(OrderDto orderDto){
         ordersToSend.add(orderDto);
     }
-    @Scheduled(fixedDelay = 60000)
+    @Scheduled(fixedDelayString ="${spring.mail.sending_delay}" )
     private synchronized void sendEmails(){
         var copyOrders = (OrderDto[]) ordersToSend.toArray();
         ordersToSend.clear();
@@ -49,7 +55,7 @@ public class EmailSending {
         }
 
     }
-    @Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelayString ="${spring.mail.check_quantity_delay}")
     private void checkQuantityEmails(){
         if (ordersToSend.size()>20) sendEmails();
     }
@@ -58,7 +64,7 @@ public class EmailSending {
             String to, String subject, String text) {
 
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("eva@hubertm.ru");
+        message.setFrom(emailProperties.getUsername());
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
