@@ -1,4 +1,4 @@
-package com.vgur.spring.email;
+package com.vgur.spring.email.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
