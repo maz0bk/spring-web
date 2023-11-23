@@ -12,6 +12,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -22,35 +24,40 @@ import java.util.concurrent.Executors;
 public class EmailSending {
     private final JavaMailSender mailSender;
     private final EmailProperties emailProperties;
-    private ArrayList<OrderDto> ordersToSend = new ArrayList<>();
+    private List<OrderDto> ordersToSend = new CopyOnWriteArrayList<>();
 
     @RabbitListener(queues = "EmailSending")
     public void listenEmailSendingQueue(OrderDto orderDto) {
         ordersToSend.add(orderDto);
     }
 
-    @Scheduled(fixedDelayString = "${spring.mail.sending_delay}")
-    private void sendEmails() {
+//    @Scheduled(fixedDelayString = "${spring.mail.sending_delay}")
+    @Scheduled(fixedDelayString = "60000")
+    void sendEmails() {
         var copyOrders = (OrderDto[]) ordersToSend.toArray();
         ordersToSend.clear();
 
-        int threadQuantity = 4;
-        ExecutorService executor = Executors.newFixedThreadPool(threadQuantity);
+        int availableProcessors = Runtime.getRuntime().availableProcessors();
+        ExecutorService executor = Executors.newFixedThreadPool(availableProcessors);
         ArrayList<Runnable> tasks = new ArrayList<>();
-        CountDownLatch latch = new CountDownLatch(threadQuantity);
-        int portion = copyOrders.length / threadQuantity;
-        for (int p = 0; p < copyOrders.length; p += portion) {
-            int finalP = p;
+        CountDownLatch latch = new CountDownLatch(availableProcessors);
+        int portion = copyOrders.length / availableProcessors + 1;
+
+        for (int taskNumber = 0; taskNumber < availableProcessors; taskNumber++) {
+            int finalTaskNumber = taskNumber;
             tasks.add(() -> {
-                for (int i = 0; i < finalP; i++) {
+                for (int i = finalTaskNumber * portion; i < (finalTaskNumber + 1) * portion; i++) {
                     sendSimpleMessage(copyOrders[i].getEmail(), "new order", "You make new order");
                 }
+//              latch.countDown(60, TimeUnit.SECONDS);
                 latch.countDown();
             });
         }
+
         for(Runnable task: tasks) {
             executor.submit(task);
         }
+
         try {
             latch.await();
         } catch (InterruptedException e) {
@@ -65,7 +72,7 @@ public class EmailSending {
         if (ordersToSend.size() > 20) sendEmails();
     }
 
-    public void sendSimpleMessage(
+    private void sendSimpleMessage(
             String to, String subject, String text) {
 
         SimpleMailMessage message = new SimpleMailMessage();

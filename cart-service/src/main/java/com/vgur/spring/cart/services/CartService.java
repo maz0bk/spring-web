@@ -3,6 +3,7 @@ package com.vgur.spring.cart.services;
 
 import com.vgur.spring.api.core.ProductDto;
 import com.vgur.spring.api.exceptions.ResourceNotFoundException;
+import com.vgur.spring.cart.configs.AppConfig;
 import com.vgur.spring.cart.integrations.ProductServiceIntegration;
 import com.vgur.spring.cart.models.Cart;
 
@@ -13,14 +14,18 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CartService {
     private final ProductServiceIntegration productServiceIntegration;
     private final RedisTemplate<String,Object> redisTemplate;
+    private final AppConfig appConfig;
+    private Map<PaymentType,PaymentService> mapPaymentServices;
     private Cart cart;
     @Value("${utils.cart.prefix}")
     private String cartPrefix;
@@ -28,6 +33,7 @@ public class CartService {
     @PostConstruct
     public void init() {
         cart = new Cart();
+        mapPaymentServices = appConfig.getPaymentServices().stream().collect(Collectors.toMap(PaymentService::getPaymentType,s->s));
     }
 
     public String getCardUuidFromSuffix(String suffix){
