@@ -1,8 +1,12 @@
+server:
+  port: 8190
+  servlet:
+    context-path: /email
 spring:
   mail:
     host: mail.hubertm.ru
     port: 465
-    username: eva@hubertm.ru
+    username: ts@hubertm.ru
     password: u7zn:_FQ3rp)Yh4
     properties:
       mail:
@@ -12,3 +16,8 @@ spring:
           ssl.enable: true
     sending_delay: 60000
     check_quantity_delay: 10000
+management:
+  endpoints:
+    web:
+      exposure:
+        include : prometheus,health,info,metric
